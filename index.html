@@ -1,23 +1,12 @@
 <!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#111326" />
-  <link rel="icon" href="./favicon.svg" />
-  <link rel="stylesheet" href="./styles.css" />
-  <title>SPARKED · Signal Run</title>
-</head>
-<body>
-  <main id="app">
-    <canvas id="road" aria-label="SPARKED Signal Run racing game"></canvas><div class="vignette"></div>
-    <header class="hud top-hud" id="raceHud" hidden><div><b>SPARKED</b><span>SIGNAL RUN / SALK 1999</span></div><div class="hud-stat"><small>CHECKPOINT</small><strong id="checkpoint">01 / 12</strong></div><div class="hud-stat"><small>POSITION</small><strong id="position">01 / 04</strong></div><div class="hud-stat"><small>SPEED</small><strong id="speed">000 <em>MPH</em></strong></div></header>
-    <section class="route-strip" id="routeStrip" hidden><span id="routeName">LAKEFRONT ESCAPE</span><div><i id="routeProgress"></i></div><b id="objective">PASSENGER ABOARD — REACH SAFETY</b></section>
-    <section class="boost-meter" id="boostMeter" hidden><small>DIVINE SPARK</small><div><i id="boost"></i></div><b>SHIFT / SPACE</b></section>
-    <section class="screen active" id="titleScreen"><div class="title-copy"><p class="eyebrow">ANGELA V. CAIN'S</p><h1>SPARKED</h1><h2>SIGNAL RUN</h2><p class="deck">The city is going dark. Your passenger is already aboard. Race Salk’s longest routes and get them to safety.</p><button class="primary" data-next="driverScreen">START RESCUE RUN <span>→</span></button><p class="controls">ARROWS / WASD TO DRIVE · SHIFT OR SPACE TO BOOST</p></div><div class="title-road"><div class="car hero-car cyan"><i></i><b></b></div><div class="signal">⚡</div></div></section>
-    <section class="screen" id="driverScreen"><div class="panel-wrap"><p class="eyebrow">01 / CHOOSE YOUR DRIVER</p><h2>WHO TAKES THE WHEEL?</h2><div class="driver-grid" id="driverGrid"></div><button class="primary next" data-next="carScreen">CHOOSE A CAR <span>→</span></button><button class="text-button" data-back="titleScreen">← BACK</button></div></section>
-    <section class="screen" id="carScreen"><div class="panel-wrap wide"><p class="eyebrow">02 / PICK YOUR RIDE</p><h2>1999, BUT MAKE IT FAST.</h2><div class="car-select" id="carSelect"></div><button class="primary next" data-next="routeScreen">CHOOSE A ROUTE <span>→</span></button><button class="text-button" data-back="driverScreen">← BACK</button></div></section>
-    <section class="screen" id="routeScreen"><div class="panel-wrap wide"><p class="eyebrow">03 / SELECT A LONG RESCUE ROUTE</p><h2>THE CLOCK STARTS AT GO.</h2><div class="route-grid" id="routeGrid"></div><button class="primary next" id="launch">LAUNCH RESCUE RUN <span>→</span></button><button class="text-button" data-back="carScreen">← BACK</button></div></section>
-    <section class="screen modal" id="pauseScreen"><div class="pause-card"><p class="eyebrow">SIGNAL PAUSED</p><h2>THE CITY CAN WAIT.</h2><button class="primary" id="resume">RESUME RUN</button><button class="secondary" id="restart">RESTART RACE</button><button class="text-button" id="quit">RETURN TO GARAGE</button></div></section><section class="screen modal" id="resultScreen"><div class="pause-card" id="results"></div></section><div class="countdown" id="countdown"></div><div class="touch-controls" id="touchControls" hidden><button data-key="left">◀</button><button data-key="up">▲</button><button data-key="down">▼</button><button data-key="right">▶</button><button class="touch-boost" data-key="boost">⚡</button></div>
-  </main><script src="./game.js"></script>
-</body></html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090b1b"><link rel="icon" href="./favicon.svg"><link rel="stylesheet" href="./styles.css"><title>SPARKED · Signal Run 3D</title></head>
+<body><main id="app"><canvas id="game"></canvas><div class="scanlines"></div>
+  <header id="hud" hidden><div class="brand">SPARKED <span>SIGNAL RUN / 3D</span></div><div class="mission"><b id="routeTitle">LAKEFRONT ESCAPE</b><small id="objective">PASSENGER ABOARD · GET TO THE SAFE ZONE</small><div class="progress"><i id="progress"></i></div></div><div class="stats"><span>CHECKPOINT <b id="checkpoints">01 / 12</b></span><span>POSITION <b id="position">01 / 04</b></span><span>SPEED <b id="speed">000 <em>MPH</em></b></span></div></header>
+  <div id="boostHud" hidden><label>DIVINE SPARK <b id="boostValue">100%</b></label><div><i id="boostBar"></i></div><small>HOLD SPACE / SHIFT TO BOOST</small></div>
+  <section class="screen active" id="home"><div class="home-copy"><p>ANGELA V. CAIN'S</p><h1>SPARKED</h1><h2>SIGNAL RUN <i>3D</i></h2><strong>THE CITY IS GOING DARK.<br>GET THEM HOME.</strong><span>Choose a driver, a 1999-style sports car, and a long escape route through Salk. Your passenger is in the car from the moment the race begins.</span><button class="primary" data-screen="garage">ENTER THE GARAGE <b>→</b></button><small>WASD / ARROWS · SPACE BOOST · ESC PAUSE</small></div></section>
+  <section class="screen" id="garage"><div class="garage"><p>01 / CHOOSE YOUR DRIVER</p><h2>TAKE THE WHEEL.</h2><div id="drivers" class="choices"></div><p>02 / CHOOSE YOUR CAR</p><h2>1999, MADE FAST.</h2><div id="cars" class="choices cars"></div><button class="primary" data-screen="routes">CHOOSE YOUR ROUTE <b>→</b></button><button class="ghost" data-screen="home">← BACK</button></div></section>
+  <section class="screen" id="routes"><div class="garage route-menu"><p>03 / SELECT A LONG RESCUE RUN</p><h2>NO STOPS. NO ONE LEFT BEHIND.</h2><div id="routesList" class="routes"></div><button class="primary" id="launch">LAUNCH RESCUE RUN <b>→</b></button><button class="ghost" data-screen="garage">← BACK</button></div></section>
+  <section class="screen modal" id="pause"><div class="dialog"><p>SIGNAL PAUSED</p><h2>THE CITY CAN WAIT.</h2><span>The passenger stays aboard. The race only ends when you reach the safe zone.</span><button class="primary" id="resume">RESUME RACE</button><button class="secondary" id="restart">RESTART THIS ROUTE</button><button class="ghost" id="quit">RETURN TO GARAGE</button></div></section>
+  <section class="screen modal" id="finish"><div class="dialog" id="finishText"></div></section>
+  <div id="countdown"></div><div id="touch" hidden><div><button data-key="left">◀</button><button data-key="right">▶</button></div><div><button data-key="boost">⚡ BOOST</button><button data-key="brake">BRAKE</button></div></div>
+</main><script type="module" src="./game.js"></script></body></html>
